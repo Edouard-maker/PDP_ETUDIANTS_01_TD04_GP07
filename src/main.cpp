@@ -1,11 +1,5 @@
 #include <Arduino.h>
 
-
-#define uS_TO_S_FACTOR 1000000 /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP 3 /* Time ESP32 will go to sleep (in seconds) */
-
-RTC_DATA_ATTR int bootCount = 0;
-
 // Define the pins that we will use
 #define SENSOR 33
 #define LED 26
@@ -45,7 +39,17 @@ void setup() {
   Serial.print  (F("Resolution:  ")); Serial.print(sensor.resolution); Serial.println(F("%"));
   Serial.println(F("------------------------------------"));
   // Set delay between sensor readings based on sensor details.
- 
+  delayMS = sensor.min_delay / 1000;
+}
+
+void loop() {
+  // Effectuer une mesure toutes les 5s
+
+  // Afficher l'humidité relative avec un peu de formatage
+
+  // Afficher la température avec un peu de formatage
+
+  delay(delayMS);
   // Get temperature event and print its value.
   sensors_event_t event;
   dht.temperature().getEvent(&event);
@@ -67,17 +71,4 @@ void setup() {
     Serial.print(event.relative_humidity);
     Serial.println(F("%"));
   }
-
-  esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
-  esp_deep_sleep_start();
-}
-
-void loop() {
-  // Effectuer une mesure toutes les 5s
-
-  // Afficher l'humidité relative avec un peu de formatage
-
-  // Afficher la température avec un peu de formatage
-
-  
 }
